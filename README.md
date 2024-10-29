@@ -12,3 +12,11 @@ Install packages, if you haven't already.
 ```bash
 pnpm install
 ```
+
+## To Run
+
+The sample logic is in the file `index.js`.
+
+```bash
+pnpm run main
+```
