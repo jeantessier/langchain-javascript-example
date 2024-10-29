@@ -1,4 +1,12 @@
-require('dotenv').config()
+import 'dotenv/config'
+import { ChatOpenAI } from "@langchain/openai"
+import { HumanMessage, SystemMessage } from "@langchain/core/messages";
 
-console.log(`NODE_ENV: ${process.env.NODE_ENV}`)
-console.log(`OPENAI_API_KEY: ${process.env.OPENAI_API_KEY}`)
+const model = new ChatOpenAI({ model: "gpt-4o-mini" })
+
+const messages = [
+    new SystemMessage("Translate the following from English into Italian"),
+    new HumanMessage("hi!"),
+]
+
+await model.invoke(messages)
