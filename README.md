@@ -2,10 +2,17 @@
 
 A sample Node that uses LangChain to talk to ChatGPT.
 
-You’ll need an API key.  So just follow the instructions to
-[obtain your OpenAI API key](https://platform.openai.com/api-keys).
-Save it to the `.env` file as the `OPENAI_API_KEY` environment variable.  You
-can use `.env.template` as a guide to structure your `.env` file.
+You’ll need an API key.  So just follow the instructions to obtain your OpenAI
+API key.
+
+- [OpenAI ChatGPT](https://platform.openai.com/api-keys)
+- [Anthropic Claude](https://console.anthropic.com/settings/keys)
+- [Google Gemini](https://aistudio.google.com/app/apikey)
+
+Save it to the `app/src/main/resources/.env` file as the corresponding
+`..._API_KEY` environment variable.  You can use
+`app/src/main/resources/.env.template` as a  guide to structure your `.env`
+file.
 
 Install packages, if you haven't already.
 
@@ -27,6 +34,12 @@ To run against Anthropic's Claude:
 
 ```bash
 pnpm run main --model anthropic
+```
+
+To run against Google's Gemini:
+
+```bash
+pnpm run main --model google
 ```
 
 If you don't specify `--model`, it will default to `openai` and use ChatGPT.
