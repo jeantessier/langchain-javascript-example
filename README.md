@@ -17,6 +17,16 @@ pnpm install
 
 The sample logic is in the file `index.js`.
 
+To run against OpenAI's ChatGPT:
+
 ```bash
-pnpm run main
+pnpm run main --model openai
 ```
+
+To run against Anthropic's Claude:
+
+```bash
+pnpm run main --model anthropic
+```
+
+If you don't specify `--model`, it will default to `openai` and use ChatGPT.

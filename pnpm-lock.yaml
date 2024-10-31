@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@langchain/anthropic':
+        specifier: ^0.3.7
+        version: 0.3.7(@langchain/core@0.3.16(openai@4.68.4(zod@3.23.8)))
       '@langchain/core':
         specifier: ^0.3.16
         version: 0.3.16(openai@4.68.4(zod@3.23.8))
@@ -19,9 +22,18 @@ importers:
         version: 16.4.5
       langchain:
         specifier: ^0.3.5
-        version: 0.3.5(@langchain/core@0.3.16(openai@4.68.4(zod@3.23.8)))(openai@4.68.4(zod@3.23.8))
+        version: 0.3.5(@langchain/anthropic@0.3.7(@langchain/core@0.3.16(openai@4.68.4(zod@3.23.8))))(@langchain/core@0.3.16(openai@4.68.4(zod@3.23.8)))(openai@4.68.4(zod@3.23.8))
 
 packages:
+
+  '@anthropic-ai/sdk@0.27.3':
+    resolution: {integrity: sha512-IjLt0gd3L4jlOfilxVXTifn42FnVffMgDC04RJK1KDZpmkBWLv0XC92MVVmkxrFZNS/7l3xWgP/I3nqtX1sQHw==}
+
+  '@langchain/anthropic@0.3.7':
+    resolution: {integrity: sha512-MjV7BNPalnG3S6PqXYHRtv3nEML1fFHl9OsqjT5KCPcULxJImnIZrJX5qMTnezM5A+Q6KOZt3e07x7aYCmU3Sg==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@langchain/core': '>=0.2.21 <0.4.0'
 
   '@langchain/core@0.3.16':
     resolution: {integrity: sha512-g83M2Z1XlhECFUtT4C7XLsVVGt2Hk3Y/KhS5tZSsz+Gqtxwd790/MD7MxdUHpZj0VKkvrFuWARWpJmNKlkiY+g==}
@@ -102,6 +114,10 @@ packages:
 
   eventemitter3@4.0.7:
     resolution: {integrity: sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==}
+
+  fast-xml-parser@4.5.0:
+    resolution: {integrity: sha512-/PlTQCI96+fZMAOLMZK4CWG1ItCbfZ/0jx7UIJFChPNrx7tcEgerUgWbeieCM9MfHInUDyK8DWYZ+YrywDJuTg==}
+    hasBin: true
 
   form-data-encoder@1.7.2:
     resolution: {integrity: sha512-qfqtYan3rxrnCk1VYaA4H+Ms9xdpPqvLZa6xmMgFvhO32x7/3J/ExcTd6qpxM0vH2GdMI+poehyBZvqfMTto8A==}
@@ -247,6 +263,9 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  strnum@1.0.5:
+    resolution: {integrity: sha512-J8bbNyKKXl5qYcR36TIO8W3mVGVHrmmxsd5PAItGkmyzwJvybiw2IVq5nqd0i4LSNSkB/sx9VHllbfFdr9k1JA==}
+
   tr46@0.0.3:
     resolution: {integrity: sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==}
 
@@ -281,6 +300,28 @@ packages:
     resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
 
 snapshots:
+
+  '@anthropic-ai/sdk@0.27.3':
+    dependencies:
+      '@types/node': 18.19.61
+      '@types/node-fetch': 2.6.11
+      abort-controller: 3.0.0
+      agentkeepalive: 4.5.0
+      form-data-encoder: 1.7.2
+      formdata-node: 4.4.1
+      node-fetch: 2.7.0
+    transitivePeerDependencies:
+      - encoding
+
+  '@langchain/anthropic@0.3.7(@langchain/core@0.3.16(openai@4.68.4(zod@3.23.8)))':
+    dependencies:
+      '@anthropic-ai/sdk': 0.27.3
+      '@langchain/core': 0.3.16(openai@4.68.4(zod@3.23.8))
+      fast-xml-parser: 4.5.0
+      zod: 3.23.8
+      zod-to-json-schema: 3.23.5(zod@3.23.8)
+    transitivePeerDependencies:
+      - encoding
 
   '@langchain/core@0.3.16(openai@4.68.4(zod@3.23.8))':
     dependencies:
@@ -360,6 +401,10 @@ snapshots:
 
   eventemitter3@4.0.7: {}
 
+  fast-xml-parser@4.5.0:
+    dependencies:
+      strnum: 1.0.5
+
   form-data-encoder@1.7.2: {}
 
   form-data@4.0.1:
@@ -387,7 +432,7 @@ snapshots:
 
   jsonpointer@5.0.1: {}
 
-  langchain@0.3.5(@langchain/core@0.3.16(openai@4.68.4(zod@3.23.8)))(openai@4.68.4(zod@3.23.8)):
+  langchain@0.3.5(@langchain/anthropic@0.3.7(@langchain/core@0.3.16(openai@4.68.4(zod@3.23.8))))(@langchain/core@0.3.16(openai@4.68.4(zod@3.23.8)))(openai@4.68.4(zod@3.23.8)):
     dependencies:
       '@langchain/core': 0.3.16(openai@4.68.4(zod@3.23.8))
       '@langchain/openai': 0.3.11(@langchain/core@0.3.16(openai@4.68.4(zod@3.23.8)))
@@ -402,6 +447,8 @@ snapshots:
       yaml: 2.6.0
       zod: 3.23.8
       zod-to-json-schema: 3.23.5(zod@3.23.8)
+    optionalDependencies:
+      '@langchain/anthropic': 0.3.7(@langchain/core@0.3.16(openai@4.68.4(zod@3.23.8)))
     transitivePeerDependencies:
       - encoding
       - openai
@@ -468,6 +515,8 @@ snapshots:
   retry@0.13.1: {}
 
   semver@7.6.3: {}
+
+  strnum@1.0.5: {}
 
   tr46@0.0.3: {}
 
