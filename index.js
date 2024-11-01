@@ -3,6 +3,9 @@ import { ChatOpenAI } from '@langchain/openai'
 import { ChatAnthropic } from '@langchain/anthropic'
 import { ChatGoogleGenerativeAI } from '@langchain/google-genai'
 import { HumanMessage, SystemMessage } from '@langchain/core/messages'
+import { StringOutputParser } from '@langchain/core/output_parsers'
+import { ChatPromptTemplate } from '@langchain/core/prompts'
+import { StructuredOutputParser } from 'langchain/output_parsers'
 
 const getOpenAiModel = () => new ChatOpenAI({
     model: "gpt-4o-mini",
@@ -30,11 +33,54 @@ if (model == null) {
     process.exit(1)
 }
 
-const messages = [
-    new SystemMessage("Translate the following from English into Italian"),
-    new HumanMessage("hi!"),
-]
+const callStringOutputParser = async () => {
+    // const prompt = ChatPromptTemplate.fromMessages([
+    //     new SystemMessage("You are a talented comedian.  Tell a joke based on a word provided by the user."),
+    //     new HumanMessage("{input}"),
+    // ])
 
-const response = await model.invoke(messages)
+    const prompt = ChatPromptTemplate.fromTemplate(`
+        You are a talented comedian.
+        Tell a dad joke based on the word {input}.
+    `)
 
-console.log(response)
+    const outputParser = new StringOutputParser()
+
+    const chain = prompt.pipe(model).pipe(outputParser)
+
+    return await chain.invoke({
+        input: "dog",
+    })
+}
+
+const callStructuredOutputParser = async () => {
+    const prompt = ChatPromptTemplate.fromTemplate(`
+        Extract information from the following phrase.
+        Formatting Instructions: {format_instructions}
+        Phrase: {phrase}
+    `)
+
+    const outputParser = StructuredOutputParser.fromNamesAndDescriptions({
+        name: "the name of the person",
+        age: "the age of the person",
+    })
+
+    const chain = prompt.pipe(model).pipe(outputParser)
+
+    return await chain.invoke({
+        phrase: "Max is 30 years old",
+        format_instructions: outputParser.getFormatInstructions(),
+    })
+}
+
+console.log("String Response")
+console.log("---------------")
+const stringResponse = await callStringOutputParser()
+console.log(stringResponse)
+
+console.log("")
+
+console.log("Structured Response")
+console.log("-------------------")
+const structuredResponse = await callStructuredOutputParser()
+console.log(structuredResponse)
