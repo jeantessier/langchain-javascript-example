@@ -1,15 +1,15 @@
-# OpenAI Test
+# LangChain JavaScript Example
 
-A sample Node that uses LangChain to talk to ChatGPT.
+A sample Node that uses LangChain to talk to LLMs.
 
-You’ll need an API key.  So just follow the instructions to obtain your OpenAI
-API key.
+You’ll need an API key for each LLM.  So just follow the instructions linked
+below  to obtain your API keys.
 
 - [OpenAI ChatGPT](https://platform.openai.com/api-keys)
 - [Anthropic Claude](https://console.anthropic.com/settings/keys)
 - [Google Gemini](https://aistudio.google.com/app/apikey)
 
-Save it to the `app/src/main/resources/.env` file as the corresponding
+Save the keys to the `app/src/main/resources/.env` file as the corresponding
 `..._API_KEY` environment variable.  You can use
 `app/src/main/resources/.env.template` as a  guide to structure your `.env`
 file.
