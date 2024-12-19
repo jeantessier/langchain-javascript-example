@@ -1,6 +1,6 @@
 # LangChain JavaScript Example
 
-A sample Node that uses LangChain to talk to LLMs.
+A sample Node script that uses LangChain to talk to LLMs.
 
 You’ll need an API key for each LLM.  So just follow the instructions linked
 below  to obtain your API keys.
