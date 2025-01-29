@@ -8,16 +8,17 @@ import { ChatPromptTemplate } from '@langchain/core/prompts'
 import { StructuredOutputParser } from 'langchain/output_parsers'
 
 const getOpenAiModel = () => new ChatOpenAI({
-    model: "gpt-4o-mini",
+    model: process.env.OPENAI_MODEL,
     apiKey: process.env.OPENAI_API_KEY,
 })
 
 const getAnthropicModel = () => new ChatAnthropic({
+    model: process.env.ANTHROPIC_MODEL,
     apiKey: process.env.ANTHROPIC_API_KEY,
 })
 
 const getGoogleModel = () => new ChatGoogleGenerativeAI({
-    model: 'gemini-1.5-flash',
+    model: process.env.GOOGLE_MODEL,
     apiKey: process.env.GOOGLE_API_KEY,
 })
 
