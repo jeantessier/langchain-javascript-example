@@ -42,4 +42,10 @@ To run against Google's Gemini:
 pnpm run main --model google
 ```
 
+To run against DeekSeek's R1:
+
+```bash
+pnpm run main --model deepseek
+```
+
 If you don't specify `--model`, it will default to `openai` and use ChatGPT.
