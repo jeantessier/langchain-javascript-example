@@ -2,6 +2,7 @@ import 'dotenv/config'
 import { ChatOpenAI } from '@langchain/openai'
 import { ChatAnthropic } from '@langchain/anthropic'
 import { ChatGoogleGenerativeAI } from '@langchain/google-genai'
+import { ChatDeepSeek } from "@langchain/deepseek";
 import { HumanMessage, SystemMessage } from '@langchain/core/messages'
 import { StringOutputParser } from '@langchain/core/output_parsers'
 import { ChatPromptTemplate } from '@langchain/core/prompts'
@@ -22,6 +23,11 @@ const getGoogleModel = () => new ChatGoogleGenerativeAI({
     apiKey: process.env.GOOGLE_API_KEY,
 })
 
+const getDeepSeekModel = () => new ChatDeepSeek({
+    model: process.env.DEEPSEEK_MODEL,
+    apiKey: process.env.DEEPSEEK_API_KEY,
+})
+
 const modelParamIndex = process.argv.findIndex(e => e === '--model')
 const modelParamValue = (modelParamIndex >= 2) ? process.argv[modelParamIndex + 1] : "openai"
 
@@ -29,6 +35,7 @@ let model
 if (modelParamValue === 'openai') model = getOpenAiModel()
 if (modelParamValue === 'anthropic') model = getAnthropicModel()
 if (modelParamValue === 'google') model = getGoogleModel()
+if (modelParamValue === 'deepseek') model = getDeepSeekModel()
 if (model == null) {
     console.log(`Unsupported model: ${modelParamValue}`)
     process.exit(1)
