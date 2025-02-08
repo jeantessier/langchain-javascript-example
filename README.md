@@ -8,6 +8,7 @@ below  to obtain your API keys.
 - [OpenAI ChatGPT](https://platform.openai.com/api-keys)
 - [Anthropic Claude](https://console.anthropic.com/settings/keys)
 - [Google Gemini](https://aistudio.google.com/app/apikey)
+- [DeepSeek R1](https://platform.deepseek.com/api_keys)
 
 Save the keys to the `app/src/main/resources/.env` file as the corresponding
 `..._API_KEY` environment variable.  You can use
