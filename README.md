@@ -10,9 +10,8 @@ below  to obtain your API keys.
 - [Google Gemini](https://aistudio.google.com/app/apikey)
 - [DeepSeek R1](https://platform.deepseek.com/api_keys)
 
-Save the keys to the `app/src/main/resources/.env` file as the corresponding
-`..._API_KEY` environment variable.  You can use
-`app/src/main/resources/.env.template` as a  guide to structure your `.env`
+Save the keys to the `.env` file as the corresponding `..._API_KEY` environment
+variable.  You can use `.env.template` as a  guide to structure your `.env`
 file.
 
 Install packages, if you haven't already.
