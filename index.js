@@ -56,10 +56,6 @@ const callStringOutputParser = async (input) => {
 
     const chain = prompt.pipe(model).pipe(outputParser)
 
-    console.log('=====  format_intructions  =====')
-    console.log(outputParser.getFormatInstructions())
-    console.log('=====  format_intructions  =====')
-
     return await chain.invoke({
         input,
     })
@@ -78,6 +74,10 @@ const callStructuredOutputParser = async (phrase) => {
     })
 
     const chain = prompt.pipe(model).pipe(outputParser)
+
+    console.log('=====  format_intructions  =====')
+    console.log(outputParser.getFormatInstructions())
+    console.log('=====  format_intructions  =====')
 
     return await chain.invoke({
         phrase,
