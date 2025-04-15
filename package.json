@@ -13,12 +13,12 @@
   "license": "ISC",
   "packageManager": "pnpm@9.12.2+sha512.22721b3a11f81661ae1ec68ce1a7b879425a1ca5b991c975b074ac220b187ce56c708fe5db69f4c962c989452eee76c82877f4ee80f474cebd61ee13461b6228",
   "dependencies": {
-    "@langchain/anthropic": "^0.3.12",
-    "@langchain/core": "^0.3.33",
+    "@langchain/anthropic": "^0.3.17",
+    "@langchain/core": "^0.3.44",
     "@langchain/deepseek": "^0.0.1",
-    "@langchain/google-genai": "^0.1.6",
+    "@langchain/google-genai": "^0.1.12",
     "@langchain/openai": "^0.3.17",
-    "dotenv": "^16.4.7",
-    "langchain": "^0.3.12"
+    "dotenv": "^16.5.0",
+    "langchain": "^0.3.21"
   }
 }
