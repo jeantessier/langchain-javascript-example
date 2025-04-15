@@ -41,7 +41,7 @@ if (model == null) {
     process.exit(1)
 }
 
-const callStringOutputParser = async () => {
+const callStringOutputParser = async (input) => {
     // const prompt = ChatPromptTemplate.fromMessages([
     //     new SystemMessage("You are a talented comedian.  Tell a joke based on a word provided by the user."),
     //     new HumanMessage("{input}"),
@@ -56,12 +56,16 @@ const callStringOutputParser = async () => {
 
     const chain = prompt.pipe(model).pipe(outputParser)
 
+    console.log('=====  format_intructions  =====')
+    console.log(outputParser.getFormatInstructions())
+    console.log('=====  format_intructions  =====')
+
     return await chain.invoke({
-        input: "dog",
+        input,
     })
 }
 
-const callStructuredOutputParser = async () => {
+const callStructuredOutputParser = async (phrase) => {
     const prompt = ChatPromptTemplate.fromTemplate(`
         Extract information from the following phrase.
         Formatting Instructions: {format_instructions}
@@ -76,19 +80,23 @@ const callStructuredOutputParser = async () => {
     const chain = prompt.pipe(model).pipe(outputParser)
 
     return await chain.invoke({
-        phrase: "Max is 30 years old",
+        phrase,
         format_instructions: outputParser.getFormatInstructions(),
     })
 }
 
 console.log("String Response")
 console.log("---------------")
-const stringResponse = await callStringOutputParser()
+const input = 'dog'
+console.log(`input word: ${input}`)
+const stringResponse = await callStringOutputParser(input)
 console.log(stringResponse)
 
 console.log("")
 
 console.log("Structured Response")
 console.log("-------------------")
-const structuredResponse = await callStructuredOutputParser()
+const phrase = 'Max is 30 years old'
+console.log(`input phrase: ${phrase}`)
+const structuredResponse = await callStructuredOutputParser(phrase)
 console.log(structuredResponse)
