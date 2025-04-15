@@ -75,9 +75,9 @@ const callStructuredOutputParser = async (phrase) => {
 
     const chain = prompt.pipe(model).pipe(outputParser)
 
-    console.log('=====  format_intructions  =====')
+    console.log('=====  format_instructions  =====')
     console.log(outputParser.getFormatInstructions())
-    console.log('=====  format_intructions  =====')
+    console.log('=====  format_instructions  =====')
 
     return await chain.invoke({
         phrase,
