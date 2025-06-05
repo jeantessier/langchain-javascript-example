@@ -1,4 +1,5 @@
 import 'dotenv/config'
+import minimist from 'minimist'
 import { ChatOpenAI } from '@langchain/openai'
 import { ChatAnthropic } from '@langchain/anthropic'
 import { ChatGoogleGenerativeAI } from '@langchain/google-genai'
@@ -28,8 +29,8 @@ const getDeepSeekModel = () => new ChatDeepSeek({
     apiKey: process.env.DEEPSEEK_API_KEY,
 })
 
-const modelParamIndex = process.argv.findIndex(e => e === '--model')
-const modelParamValue = (modelParamIndex >= 2) ? process.argv[modelParamIndex + 1] : "openai"
+const argv = minimist(process.argv.slice(2))
+const modelParamValue = argv.model || "openai"
 
 let model
 if (modelParamValue === 'openai') model = getOpenAiModel()
