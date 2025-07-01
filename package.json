@@ -5,7 +5,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "main": "node index.js",
+    "main": "node -r dotenv/config index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -18,8 +18,10 @@
     "@langchain/deepseek": "^0.0.1",
     "@langchain/google-genai": "^0.2.13",
     "@langchain/openai": "^0.5.14",
-    "dotenv": "^16.5.0",
     "langchain": "^0.3.29",
     "minimist": "^1.2.8"
+  },
+  "devDependencies": {
+    "dotenv": "^16.5.0"
   }
 }
