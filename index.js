@@ -48,7 +48,7 @@ if (model == null) {
     process.exit(1)
 }
 
-const callStringOutputParser = async (input) => {
+const callStringOutputParser = async input => {
     // const prompt = ChatPromptTemplate.fromMessages([
     //     new SystemMessage("You are a talented comedian.  Tell a joke based on a word provided by the user."),
     //     new HumanMessage("{input}"),
@@ -68,7 +68,7 @@ const callStringOutputParser = async (input) => {
     })
 }
 
-const callStructuredOutputParser = async (phrase) => {
+const callStructuredOutputParser = async phrase => {
     const prompt = ChatPromptTemplate.fromTemplate(`
         Extract information from the following phrase.
         Formatting Instructions: {format_instructions}
