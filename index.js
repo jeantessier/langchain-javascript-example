@@ -1,11 +1,12 @@
 import minimist from 'minimist'
-import { ChatOpenAI } from '@langchain/openai'
 import { ChatAnthropic } from '@langchain/anthropic'
-import { ChatGoogleGenerativeAI } from '@langchain/google-genai'
-import { ChatDeepSeek } from "@langchain/deepseek";
+import { ChatPerplexity } from '@langchain/community/chat_models/perplexity'
 import { HumanMessage, SystemMessage } from '@langchain/core/messages'
 import { StringOutputParser } from '@langchain/core/output_parsers'
 import { ChatPromptTemplate } from '@langchain/core/prompts'
+import { ChatDeepSeek } from '@langchain/deepseek'
+import { ChatGoogleGenerativeAI } from '@langchain/google-genai'
+import { ChatOpenAI } from '@langchain/openai'
 import { StructuredOutputParser } from 'langchain/output_parsers'
 
 const getOpenAiModel = () => new ChatOpenAI({
@@ -28,6 +29,11 @@ const getDeepSeekModel = () => new ChatDeepSeek({
     apiKey: process.env.DEEPSEEK_API_KEY,
 })
 
+const getPerplexityModel = () => new ChatPerplexity({
+    model: process.env.PERPLEXITY_MODEL,
+    apiKey: process.env.PERPLEXITY_API_KEY,
+})
+
 const argv = minimist(process.argv.slice(2))
 const modelParamValue = argv.model || "openai"
 
@@ -36,6 +42,7 @@ if (modelParamValue === 'openai') model = getOpenAiModel()
 if (modelParamValue === 'anthropic') model = getAnthropicModel()
 if (modelParamValue === 'google') model = getGoogleModel()
 if (modelParamValue === 'deepseek') model = getDeepSeekModel()
+if (modelParamValue === 'perplexity') model = getPerplexityModel()
 if (model == null) {
     console.log(`Unsupported model: ${modelParamValue}`)
     process.exit(1)
