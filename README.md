@@ -27,25 +27,25 @@ The sample logic is in the file `index.js`.
 To run against OpenAI's ChatGPT:
 
 ```bash
-pnpm run main --model openai
+pnpm main --model openai
 ```
 
 To run against Anthropic's Claude:
 
 ```bash
-pnpm run main --model anthropic
+pnpm main --model anthropic
 ```
 
 To run against Google's Gemini:
 
 ```bash
-pnpm run main --model google
+pnpm main --model google
 ```
 
 To run against DeekSeek's R1:
 
 ```bash
-pnpm run main --model deepseek
+pnpm main --model deepseek
 ```
 
 If you don't specify `--model`, it will default to `openai` and use ChatGPT.

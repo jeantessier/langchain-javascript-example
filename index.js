@@ -2,12 +2,11 @@ import minimist from 'minimist'
 import { ChatAnthropic } from '@langchain/anthropic'
 import { ChatPerplexity } from '@langchain/community/chat_models/perplexity'
 import { HumanMessage, SystemMessage } from '@langchain/core/messages'
-import { StringOutputParser } from '@langchain/core/output_parsers'
+import { StringOutputParser, StructuredOutputParser } from '@langchain/core/output_parsers'
 import { ChatPromptTemplate } from '@langchain/core/prompts'
 import { ChatDeepSeek } from '@langchain/deepseek'
 import { ChatGoogleGenerativeAI } from '@langchain/google-genai'
 import { ChatOpenAI } from '@langchain/openai'
-import { StructuredOutputParser } from 'langchain/output_parsers'
 
 const getOpenAiModel = () => new ChatOpenAI({
     model: process.env.OPENAI_MODEL,
