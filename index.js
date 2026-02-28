@@ -1,7 +1,6 @@
 import minimist from 'minimist'
 import { ChatAnthropic } from '@langchain/anthropic'
 import { ChatPerplexity } from '@langchain/community/chat_models/perplexity'
-import { HumanMessage, SystemMessage } from '@langchain/core/messages'
 import { StringOutputParser, StructuredOutputParser } from '@langchain/core/output_parsers'
 import { ChatPromptTemplate } from '@langchain/core/prompts'
 import { ChatDeepSeek } from '@langchain/deepseek'
@@ -48,23 +47,32 @@ if (model == null) {
 }
 
 const callStringOutputParser = async input => {
-    // const prompt = ChatPromptTemplate.fromMessages([
-    //     new SystemMessage("You are a talented comedian.  Tell a joke based on a word provided by the user."),
-    //     new HumanMessage("{input}"),
-    // ])
-
-    const prompt = ChatPromptTemplate.fromTemplate(`
-        You are a talented comedian.
-        Tell a dad joke based on the word {input}.
-    `)
+    const prompt = ChatPromptTemplate.fromMessages([
+        ["system", "You are a talented comedian."],
+        ["human", "Tell a dad joke based on the word {input}."],
+    ])
 
     const outputParser = new StringOutputParser()
 
     const chain = prompt.pipe(model).pipe(outputParser)
 
-    return await chain.invoke({
-        input,
-    })
+    return await chain.invoke(
+        { input },
+        {
+            callbacks: [
+                {
+                    async handleChatModelStart(llm, messages) {
+                        console.log('*** handleChatModelStart  ***')
+                        console.log('output:', JSON.stringify(messages, null, 2))
+                    },
+                    async handleLLMEnd(output) {
+                        console.log('*** handleLLMEnd  ***')
+                        console.log('output:', JSON.stringify(output, null, 2))
+                    },
+                }
+            ],
+        },
+    )
 }
 
 const callStructuredOutputParser = async phrase => {
@@ -85,10 +93,26 @@ const callStructuredOutputParser = async phrase => {
     console.log(outputParser.getFormatInstructions())
     console.log('=====  format_instructions  =====')
 
-    return await chain.invoke({
-        phrase,
-        format_instructions: outputParser.getFormatInstructions(),
-    })
+    return await chain.invoke(
+        {
+            phrase,
+            format_instructions: outputParser.getFormatInstructions(),
+        },
+        {
+            callbacks: [
+                {
+                    async handleChatModelStart(llm, messages) {
+                        console.log('*** handleChatModelStart  ***')
+                        console.log('output:', JSON.stringify(messages, null, 2))
+                    },
+                    async handleLLMEnd(output) {
+                        console.log('*** handleLLMEnd  ***')
+                        console.log('output:', JSON.stringify(output, null, 2))
+                    },
+                }
+            ],
+        },
+    )
 }
 
 console.log("String Response")
