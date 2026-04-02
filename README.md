@@ -9,6 +9,7 @@ below  to obtain your API keys.
 - [Anthropic Claude](https://console.anthropic.com/settings/keys)
 - [Google Gemini](https://aistudio.google.com/app/apikey)
 - [DeepSeek R1](https://platform.deepseek.com/api_keys)
+- [Perplexity](https://console.perplexity.ai/)
 
 Save the keys to the `.env` file as the corresponding `..._API_KEY` environment
 variable.  You can use `.env.template` as a  guide to structure your `.env`
@@ -46,6 +47,12 @@ To run against DeekSeek's R1:
 
 ```bash
 pnpm main --model deepseek
+```
+
+To run against Perplexity:
+
+```bash
+pnpm main --model perplexity
 ```
 
 If you don't specify `--model`, it will default to `openai` and use ChatGPT.
