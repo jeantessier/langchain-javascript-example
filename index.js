@@ -3,6 +3,7 @@ import { ChatAnthropic } from '@langchain/anthropic'
 import { ChatPerplexity } from '@langchain/community/chat_models/perplexity'
 import { StringOutputParser, StructuredOutputParser } from '@langchain/core/output_parsers'
 import { ChatPromptTemplate } from '@langchain/core/prompts'
+import { RunnableLambda } from '@langchain/core/runnables'
 import { ChatDeepSeek } from '@langchain/deepseek'
 import { ChatGoogleGenerativeAI } from '@langchain/google-genai'
 import { ChatOpenAI } from '@langchain/openai'
@@ -10,6 +11,7 @@ import { ChatOpenAI } from '@langchain/openai'
 const getOpenAiModel = () => new ChatOpenAI({
     model: process.env.OPENAI_MODEL,
     apiKey: process.env.OPENAI_API_KEY,
+    useResponsesApi: true,
 })
 
 const getAnthropicModel = () => new ChatAnthropic({
@@ -63,7 +65,7 @@ const callStringOutputParser = async input => {
                 {
                     async handleChatModelStart(llm, messages) {
                         console.log('*** handleChatModelStart  ***')
-                        console.log('output:', JSON.stringify(messages, null, 2))
+                        console.log('messages:', JSON.stringify(messages, null, 2))
                     },
                     async handleLLMEnd(output) {
                         console.log('*** handleLLMEnd  ***')
@@ -82,12 +84,36 @@ const callStructuredOutputParser = async phrase => {
         Phrase: {phrase}
     `)
 
+    const extractText = RunnableLambda.from(message => {
+        const raw = message.content
+
+        // If it's already a plain string, use it directly
+        if (typeof raw === "string") return raw
+
+        // If it's the Responses API array format, extract the text field
+        if (Array.isArray(raw)) {
+            return raw
+                .filter((block) => block.type === "text")
+                .map((block) => block.text)
+                .join("\n")
+        }
+
+        return String(raw)
+    })
+
+    const stripFences = RunnableLambda.from(text =>
+        text
+            .replace(/^```(?:json)?\s*/i, "")
+            .replace(/\s*```$/, "")
+            .trim()
+    )
+
     const outputParser = StructuredOutputParser.fromNamesAndDescriptions({
         name: "the name of the person",
         age: "the age of the person",
     })
 
-    const chain = prompt.pipe(model).pipe(outputParser)
+    const chain = prompt.pipe(model).pipe(extractText).pipe(stripFences).pipe(outputParser)
 
     console.log('=====  format_instructions  =====')
     console.log(outputParser.getFormatInstructions())
@@ -103,7 +129,7 @@ const callStructuredOutputParser = async phrase => {
                 {
                     async handleChatModelStart(llm, messages) {
                         console.log('*** handleChatModelStart  ***')
-                        console.log('output:', JSON.stringify(messages, null, 2))
+                        console.log('messages:', JSON.stringify(messages, null, 2))
                     },
                     async handleLLMEnd(output) {
                         console.log('*** handleLLMEnd  ***')
@@ -115,12 +141,21 @@ const callStructuredOutputParser = async phrase => {
     )
 }
 
+const logElapsedTime = async callback => {
+    const startingTime = new Date()
+    await callback()
+    const endingTime = new Date()
+    console.log(`(${(endingTime - startingTime) / 1_000} secs)`)
+}
+
 console.log("String Response")
 console.log("---------------")
 const input = 'dog'
 console.log(`input word: ${input}`)
-const stringResponse = await callStringOutputParser(input)
-console.log(stringResponse)
+await logElapsedTime(async () => {
+    const response = await callStringOutputParser(input)
+    console.log(response)
+})
 
 console.log("")
 
@@ -128,5 +163,7 @@ console.log("Structured Response")
 console.log("-------------------")
 const phrase = 'Max is 30 years old'
 console.log(`input phrase: ${phrase}`)
-const structuredResponse = await callStructuredOutputParser(phrase)
-console.log(structuredResponse)
+await logElapsedTime(async () => {
+    const response = await callStructuredOutputParser(phrase)
+    console.log(response)
+})
