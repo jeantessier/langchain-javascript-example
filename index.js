@@ -1,12 +1,12 @@
 import minimist from 'minimist'
 import { ChatAnthropic } from '@langchain/anthropic'
-import { ChatPerplexity } from '@langchain/community/chat_models/perplexity'
 import { StringOutputParser, StructuredOutputParser } from '@langchain/core/output_parsers'
 import { ChatPromptTemplate } from '@langchain/core/prompts'
 import { RunnableLambda } from '@langchain/core/runnables'
 import { ChatDeepSeek } from '@langchain/deepseek'
 import { ChatGoogleGenerativeAI } from '@langchain/google-genai'
 import { ChatOpenAI } from '@langchain/openai'
+import { ChatPerplexity } from '@langchain/perplexity'
 
 const getOpenAiModel = () => new ChatOpenAI({
     model: process.env.OPENAI_MODEL,
