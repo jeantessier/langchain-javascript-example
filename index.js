@@ -1,52 +1,14 @@
 import minimist from 'minimist'
-import { ChatAnthropic } from '@langchain/anthropic'
 import { StringOutputParser, StructuredOutputParser } from '@langchain/core/output_parsers'
 import { ChatPromptTemplate } from '@langchain/core/prompts'
 import { RunnableLambda } from '@langchain/core/runnables'
-import { ChatDeepSeek } from '@langchain/deepseek'
-import { ChatGoogleGenerativeAI } from '@langchain/google-genai'
-import { ChatOpenAI } from '@langchain/openai'
-import { ChatPerplexity } from '@langchain/perplexity'
-
-const getOpenAiModel = () => new ChatOpenAI({
-    model: process.env.OPENAI_MODEL,
-    apiKey: process.env.OPENAI_API_KEY,
-    useResponsesApi: true,
-})
-
-const getAnthropicModel = () => new ChatAnthropic({
-    model: process.env.ANTHROPIC_MODEL,
-    apiKey: process.env.ANTHROPIC_API_KEY,
-})
-
-const getGoogleModel = () => new ChatGoogleGenerativeAI({
-    model: process.env.GOOGLE_MODEL,
-    apiKey: process.env.GOOGLE_API_KEY,
-})
-
-const getDeepSeekModel = () => new ChatDeepSeek({
-    model: process.env.DEEPSEEK_MODEL,
-    apiKey: process.env.DEEPSEEK_API_KEY,
-})
-
-const getPerplexityModel = () => new ChatPerplexity({
-    model: process.env.PERPLEXITY_MODEL,
-    apiKey: process.env.PERPLEXITY_API_KEY,
-})
+import { getModel } from './ai.js'
+import { logElapsedTime } from './utils.js'
 
 const argv = minimist(process.argv.slice(2))
 const modelParamValue = argv.model || "openai"
 
-let model
-if (modelParamValue === 'openai') model = getOpenAiModel()
-if (modelParamValue === 'anthropic') model = getAnthropicModel()
-if (modelParamValue === 'google') model = getGoogleModel()
-if (modelParamValue === 'deepseek') model = getDeepSeekModel()
-if (modelParamValue === 'perplexity') model = getPerplexityModel()
-if (model == null) {
-    console.log(`Unsupported model: ${modelParamValue}`)
-    process.exit(1)
-}
+const model = getModel(modelParamValue)
 
 const callStringOutputParser = async input => {
     const prompt = ChatPromptTemplate.fromMessages([
@@ -58,7 +20,7 @@ const callStringOutputParser = async input => {
 
     const chain = prompt.pipe(model).pipe(outputParser)
 
-    return await chain.invoke(
+    return chain.invoke(
         { input },
         {
             callbacks: [
@@ -119,7 +81,7 @@ const callStructuredOutputParser = async phrase => {
     console.log(outputParser.getFormatInstructions())
     console.log('=====  format_instructions  =====')
 
-    return await chain.invoke(
+    return chain.invoke(
         {
             phrase,
             format_instructions: outputParser.getFormatInstructions(),
@@ -139,13 +101,6 @@ const callStructuredOutputParser = async phrase => {
             ],
         },
     )
-}
-
-const logElapsedTime = async callback => {
-    const startingTime = new Date()
-    await callback()
-    const endingTime = new Date()
-    console.log(`(${(endingTime - startingTime) / 1_000} secs)`)
 }
 
 console.log("String Response")
