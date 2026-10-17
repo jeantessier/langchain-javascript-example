@@ -3,12 +3,14 @@ import { ChatPromptTemplate } from '@langchain/core/prompts'
 import { listKnownModels, getModel } from './ai.js'
 import { logElapsedTime } from './utils.js'
 
+const obfuscateKey = (key, prefixLength, suffixLength = 4) => `${key?.slice(0, prefixLength)}...${key?.slice(-suffixLength)}`
+
 const getDisplayKey = modelName => {
-    if (modelName === 'anthropic') return `ANTHROPIC_API_KEY: ${process.env.ANTHROPIC_API_KEY?.slice(0, 15)}...${process.env.ANTHROPIC_API_KEY?.slice(-4)}`
-    if (modelName === 'deepseek') return `DEEPSEEK_API_KEY: ${process.env.DEEPSEEK_API_KEY?.slice(0, 7)}...${process.env.DEEPSEEK_API_KEY?.slice(-4)}`
-    if (modelName === 'google') return `GOOGLE_API_KEY: ${process.env.GOOGLE_API_KEY?.slice(0, 7)}...${process.env.GOOGLE_API_KEY?.slice(-4)}`
-    if (modelName === 'openai') return `OPENAI_API_KEY: ${process.env.OPENAI_API_KEY?.slice(0, 14)}...${process.env.OPENAI_API_KEY?.slice(-4)}`
-    if (modelName === 'perplexity') return `PERPLEXITY_API_KEY: ${process.env.PERPLEXITY_API_KEY?.slice(0, 9)}...${process.env.PERPLEXITY_API_KEY?.slice(-4)}`
+    if (modelName === 'anthropic') return `ANTHROPIC_API_KEY: ${obfuscateKey(process.env.ANTHROPIC_API_KEY, 15)}`
+    if (modelName === 'deepseek') return `DEEPSEEK_API_KEY: ${obfuscateKey(process.env.DEEPSEEK_API_KEY, 7)}`
+    if (modelName === 'google') return `GOOGLE_API_KEY: ${obfuscateKey(process.env.GOOGLE_API_KEY, 7)}`
+    if (modelName === 'openai') return `OPENAI_API_KEY: ${obfuscateKey(process.env.OPENAI_API_KEY, 14)}`
+    if (modelName === 'perplexity') return `PERPLEXITY_API_KEY: ${obfuscateKey(process.env.PERPLEXITY_API_KEY, 9)}`
     return ''
 }
 
