@@ -28,9 +28,17 @@ const runSmokeTest = async model => {
     return chain.invoke()
 }
 
+const TARGET_MODELS = [
+    'anthropic',
+    // 'deepseek',
+    // 'google',
+    'openai',
+    'perplexity',
+]
+
 Promise.all(
     listKnownModels()
-        .filter(modelName => ['anthropic', /* 'deepseek', 'google', */ 'openai', 'perplexity'].includes(modelName))
+        .filter(modelName => TARGET_MODELS.includes(modelName))
         .map(async modelName => {
             try {
                 await logElapsedTime(async () => {
